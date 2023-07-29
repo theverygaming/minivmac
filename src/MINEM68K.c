@@ -30,6 +30,8 @@
 		(this code now located in "FPCPEMDV.h")
 */
 
+#include <stdio.h> // for m68k_PrintRegisters
+
 #ifndef AllFiles
 #include "SYSDEPNS.h"
 
@@ -8820,6 +8822,27 @@ GLOBALPROC m68k_IPLchangeNtfy(void)
 			SetExternalInterruptPending();
 		}
 	}
+	Em_Exit();
+}
+
+GLOBALPROC m68k_PrintRegisters(void)
+{
+	Em_Enter();
+	// ui5r = unsigned int
+	
+	fprintf(stderr, "-- registers --\n");
+	fprintf(stderr, "pc: 0x%08x\n", (unsigned int)m68k_getpc());
+
+	for(int i = 0; i < 16; i++) {
+		char t = i > 7 ? 'a' : 'd';
+		int n = i > 7 ? i - 8 : i;
+		fprintf(stderr, "| %c%d: 0x%08x ", t, n, V_regs.regs[i]);
+		if((i+1) % 4 == 0) {
+			fprintf(stderr, "|\n");
+		}
+	}
+	fprintf(stderr, "\n");
+
 	Em_Exit();
 }
 

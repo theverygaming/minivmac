@@ -521,6 +521,8 @@ enum {
 	kNumCntrlMsgs
 };
 
+EXPORTPROC m68k_PrintRegisters(void);
+
 LOCALPROC DoEnterControlMode(void)
 {
 	CurControlMode = kCntrlModeBase;
@@ -528,6 +530,7 @@ LOCALPROC DoEnterControlMode(void)
 	NeedWholeScreenDraw = trueblnr;
 	DisconnectKeyCodes1(kKeepMaskControl | kKeepMaskCapsLock);
 	SpecialModeSet(SpclModeControl);
+    m68k_PrintRegisters(); 	// print registers when control mode is entered
 }
 
 LOCALPROC DoLeaveControlMode(void)
